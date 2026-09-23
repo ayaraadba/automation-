@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Settings</h1>
+    <p class="muted">Connect your Instagram Business/Creator account. Saved values override environment variables.</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <section class="card">
+    <div class="card-head"><h2>Instagram credentials</h2></div>
+    <form id="settings-form" class="stack" autocomplete="off">
+      <label class="field">
+        <span>User access token (long-lived)</span>
+        <input type="password" name="access_token" placeholder="Paste a new token to replace the saved one">
+        <small class="muted" id="token-status">Loading…</small>
+      </label>
+      <label class="field">
+        <span>Facebook Page ID</span>
+        <input name="page_id" placeholder="1234567890" inputmode="numeric">
+        <small class="muted">The Page linked to your Instagram account (used for DMs).</small>
+      </label>
+      <label class="field">
+        <span>Instagram Business Account ID</span>
+        <input name="instagram_account_id" placeholder="17841400000000000" inputmode="numeric">
+      </label>
+      <div class="actions">
+        <button type="submit" class="btn primary">Save</button>
+        <button type="button" class="btn ghost" id="test-connection">Test connection</button>
+        <button type="button" class="btn ghost" id="refresh-token" hidden>Refresh token (60 days)</button>
+      </div>
+      <div id="connection-result" class="connection-result" hidden></div>
+    </form>
+  </section>
+
+  <section class="card">
+    <div class="card-head"><h2>Webhook</h2></div>
+    <div class="stack">
+      <label class="field">
+        <span>Callback URL</span>
+        <div class="input-row">
+          <input id="webhook-url" value="{{ webhook_url }}" readonly>
+          <button type="button" class="btn ghost" id="copy-webhook">Copy</button>
+        </div>
+        <small class="muted">Use your public HTTPS URL in the Meta dashboard. Subscribe to the <code>comments</code> field.</small>
+      </label>
+      <ul class="checklist" id="checklist">
+        <li data-check="verify_token_configured">WEBHOOK_VERIFY_TOKEN set in environment</li>
+        <li data-check="webhook_secret_configured">FACEBOOK_APP_SECRET set in environment (signature validation)</li>
+        <li data-check="access_token_set">Access token saved</li>
+        <li data-check="instagram_account_id">Instagram account ID saved</li>
+        <li data-check="page_id">Facebook Page ID saved</li>
+        <li class="{{ 'ok' if auth_enabled else 'bad' }}">Dashboard password (DASHBOARD_PASSWORD) set</li>
+      </ul>
+    </div>
+  </section>
+</div>
+{% endblock %}

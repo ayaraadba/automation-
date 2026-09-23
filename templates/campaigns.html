@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% block title %}Campaigns{% endblock %}
+{% block content %}
+<div class="page-head">
+  <div>
+    <h1>Campaigns</h1>
+    <p class="muted">When someone comments a keyword on a tracked post, they get a public reply and a DM.</p>
+  </div>
+  <button class="btn primary" id="new-campaign">+ New campaign</button>
+</div>
+
+<div id="setup-warning" class="callout warn" hidden>
+  Instagram credentials aren't configured yet. <a href="/dashboard/settings">Open Settings</a> to connect your account.
+</div>
+
+<section id="campaign-list" class="campaign-list">
+  <div class="empty muted">Loading…</div>
+</section>
+
+<section class="card activity">
+  <div class="card-head">
+    <h2>Recent activity</h2>
+    <button class="btn ghost small" id="refresh-activity">Refresh</button>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>When</th><th>Commenter</th><th>Comment</th><th>Keyword</th><th>Reply</th><th>DM</th></tr></thead>
+      <tbody id="activity-body"><tr><td colspan="6" class="muted">Loading…</td></tr></tbody>
+    </table>
+  </div>
+</section>
+
+<dialog id="campaign-dialog" class="dialog">
+  <form id="campaign-form" method="dialog" novalidate>
+    <div class="dialog-head">
+      <h2 id="dialog-title">New campaign</h2>
+      <button type="button" class="icon-btn" data-close aria-label="Close">&times;</button>
+    </div>
+    <div class="dialog-body">
+      <input type="hidden" name="id">
+      <label class="field">
+        <span>Name <em class="muted">(optional)</em></span>
+        <input name="name" maxlength="200" placeholder="e.g. Free guide reel">
+      </label>
+
+      <label class="field">
+        <span>Post ID</span>
+        <div class="input-row">
+          <input name="post_id" required placeholder="17895695668004550" autocomplete="off">
+          <button type="button" class="btn ghost" id="browse-posts">Browse posts</button>
+        </div>
+        <small class="muted">Tab out of the field to load a preview.</small>
+      </label>
+      <div id="recent-posts" class="recent-posts" hidden></div>
+      <div id="post-preview" class="post-preview" hidden></div>
+
+      <label class="field">
+        <span>Trigger keywords</span>
+        <input name="keywords" required placeholder="guide, link, info">
+        <small class="muted">Comma-separated. Case-insensitive; matches anywhere in the comment.</small>
+        <div id="keyword-chips" class="chips"></div>
+      </label>
+
+      <label class="field">
+        <span>Public comment reply</span>
+        <textarea name="comment_reply" rows="2" maxlength="2200" required placeholder="Sent! Check your DMs 📩"></textarea>
+      </label>
+
+      <label class="field">
+        <span>DM message</span>
+        <textarea name="dm_message" rows="4" maxlength="1000" required placeholder="Hey! Here's the link you asked for: https://…"></textarea>
+        <small class="muted"><span data-count="dm_message">0</span>/1000</small>
+      </label>
+
+      <label class="switch-field">
+        <input type="checkbox" name="is_active" checked>
+        <span class="switch" aria-hidden="true"></span>
+        Active
+      </label>
+      <p id="form-error" class="form-error" hidden></p>
+    </div>
+    <div class="dialog-foot">
+      <button type="button" class="btn ghost" data-close>Cancel</button>
+      <button type="submit" class="btn primary" id="save-campaign">Save campaign</button>
+    </div>
+  </form>
+</dialog>
+{% endblock %}

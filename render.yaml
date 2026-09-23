@@ -1,0 +1,30 @@
+services:
+  - type: web
+    name: ig-comment-to-dm
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    healthCheckPath: /health
+    # A persistent disk keeps the SQLite DB across deploys (requires a paid instance type).
+    disk:
+      name: data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: DATABASE_URL
+        value: sqlite:////data/app.db
+      - key: WEBHOOK_VERIFY_TOKEN
+        generateValue: true
+      - key: FACEBOOK_APP_SECRET
+        sync: false
+      - key: FACEBOOK_APP_ID
+        sync: false
+      - key: INSTAGRAM_ACCESS_TOKEN
+        sync: false
+      - key: INSTAGRAM_BUSINESS_ACCOUNT_ID
+        sync: false
+      - key: FACEBOOK_PAGE_ID
+        sync: false
+      - key: DASHBOARD_USERNAME
+        value: admin
+      - key: DASHBOARD_PASSWORD
+        sync: false
