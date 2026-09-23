@@ -73,7 +73,9 @@ Instagram ──(comment webhook)──▶ POST /webhook/instagram
 ├── routes/
 │   ├── webhook.py       # GET/POST /webhook/instagram
 │   ├── dashboard.py     # /dashboard HTML pages
-│   └── api.py           # REST API for campaigns / config / post previews
+│   ├── api.py           # REST API for campaigns / config / post previews
+│   └── legal.py         # Public /privacy and /data-deletion pages
+├── docs/app-review.md   # Paste-ready Meta App Review submission kit
 ├── static/              # style.css, app.js
 ├── templates/           # base.html, campaigns.html, settings.html
 ├── tests/               # pytest suite (mocks the Graph API)
@@ -325,6 +327,12 @@ Instagram restricts who a business can message:
   4. Provide a privacy policy URL, and test credentials if the reviewer needs
      them.
   5. After approval, switch the app to **Live** mode.
+
+  **Ready-made submission text:** [`docs/app-review.md`](docs/app-review.md) has paste-ready
+  descriptions for every permission, a screencast script, reviewer instructions, and fixes for
+  common rejections. The app serves the required Privacy Policy at `/privacy` and data deletion
+  instructions at `/data-deletion`. Set `BUSINESS_NAME`, `CONTACT_EMAIL` and `INSTAGRAM_HANDLE` so
+  they show your details.
 - Instagram also applies its own spam limits. Use plain, useful DM text, and
   avoid sending the same link to huge volumes in a short time.
 - The recipient must not have blocked your account, and **Allow access to
@@ -391,6 +399,8 @@ Tables are created automatically on startup. No code changes are needed.
 | `DATABASE_URL` | no | Default `sqlite:///./app.db` (Docker: `sqlite:////data/app.db`). |
 | `DASHBOARD_USERNAME` | no | Basic-auth username for `/dashboard` and `/api` (default `admin`). |
 | `DASHBOARD_PASSWORD` | **strongly recommended** | Enables Basic auth on the dashboard and API. Without it, anyone who finds the URL can change your token. |
+| `BUSINESS_NAME`, `CONTACT_EMAIL`, `INSTAGRAM_HANDLE`, `PRIVACY_EFFECTIVE_DATE` | for App Review | Shown on the public `/privacy` and `/data-deletion` pages. |
+| `DATA_RETENTION_DAYS` | no | Activity records are deleted after this many days (default `90`). |
 | `GRAPH_API_VERSION` | no | Default `v23.0`. |
 | `LOG_LEVEL` | no | Default `INFO`. |
 
@@ -424,6 +434,8 @@ All `/api` routes require Basic auth when `DASHBOARD_PASSWORD` is set.
 | GET | `/api/posts/recent` | Recent media for the post picker |
 | GET | `/api/posts/{post_id}` | Post preview (caption, thumbnail) |
 | GET | `/api/activity` | Recently processed comments with reply/DM status |
+| DELETE | `/api/activity?username=…` | Delete all records for an Instagram username (data deletion requests) |
+| GET | `/privacy`, `/data-deletion` | Public legal pages for Meta App Review |
 
 Interactive docs are at `/docs`.
 

@@ -1,0 +1,85 @@
+{% extends "public.html" %}
+{% block title %}Privacy Policy{% endblock %}
+{% block content %}
+<h1>Privacy Policy</h1>
+{% if effective_date %}<p class="muted">Effective {{ effective_date }}</p>{% endif %}
+
+<p>
+  This policy explains how {{ business_name }} ("we", "us") handles information when you interact with
+  our Instagram account{% if instagram_handle %} <a href="https://www.instagram.com/{{ instagram_handle }}/">@{{ instagram_handle }}</a>{% endif %}
+  through our comment auto-reply tool. The tool uses Meta's official Instagram Graph API and only works on our own
+  Instagram account.
+</p>
+
+<h2>What the tool does</h2>
+<p>
+  On some of our posts we invite people to comment a keyword (for example "guide") to receive something from us.
+  When you comment one of those keywords, the tool automatically posts a public reply under your comment and sends
+  you one private message (DM) on Instagram with the content you asked for. It does not message anyone who has not
+  commented one of those keywords, and it never sends more than one message per comment.
+</p>
+
+<h2>Information we collect</h2>
+<p>We only store information when your comment matches one of our keywords. In that case we store:</p>
+<ul>
+  <li>your Instagram username and the Instagram-scoped user ID that Meta provides for our account;</li>
+  <li>the text of your comment, its ID, the ID of the post you commented on, and the keyword it matched;</li>
+  <li>the date and time we processed it, and whether our reply and message were delivered.</li>
+</ul>
+<p>
+  Comments that don't contain a keyword are not stored. We don't collect your email address, phone number, contact
+  list, location, or any information from your profile beyond your username. We don't use cookies or tracking
+  technologies on this site.
+</p>
+
+<h2>How we use it</h2>
+<ul>
+  <li>to reply to your comment and send you the message you asked for;</li>
+  <li>to make sure you only receive that message once, even if Instagram notifies us about your comment more than once;</li>
+  <li>to fix delivery problems.</li>
+</ul>
+<p>We don't sell your information, use it for advertising, or use it to build profiles about you.</p>
+
+<h2>Who we share it with</h2>
+<ul>
+  <li><strong>Meta Platforms</strong>, because replies and messages are sent through Instagram. Meta's handling of
+    Instagram data is described in the <a href="https://privacycenter.instagram.com/policy">Instagram Privacy Policy</a>.</li>
+  <li><strong>Our hosting provider</strong>, which stores the database on our behalf.</li>
+  <li>Authorities, if required by law.</li>
+</ul>
+
+<h2>How long we keep it</h2>
+<p>
+  Records are deleted automatically {{ retention_days }} days after your comment is processed. The public reply and
+  the message you received remain on Instagram, where you can delete them yourself at any time.
+</p>
+
+<h2>Your choices and rights</h2>
+<ul>
+  <li>You can stop receiving messages by not commenting our keywords. You can also block or restrict our account on Instagram.</li>
+  <li>You can ask us to delete your information at any time. See our <a href="{{ deletion_url }}">data deletion instructions</a>.</li>
+  <li>Depending on where you live, you may also have rights to access or correct your information, or to object to
+    its use. Contact us to exercise them.</li>
+</ul>
+
+<h2>Security</h2>
+<p>
+  Information is stored on access-controlled servers and sent only over encrypted connections (HTTPS). Only
+  {{ business_name }} staff can access the management dashboard.
+</p>
+
+<h2>Children</h2>
+<p>This tool is not directed at children under 13, and Instagram itself requires users to be at least 13.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, we'll update the effective date on this page.</p>
+
+<h2>Contact</h2>
+<p>
+  Questions or requests:
+  {% if contact_email %}<a href="mailto:{{ contact_email }}">{{ contact_email }}</a>{% endif %}
+  {% if contact_email and instagram_handle %} or {% endif %}
+  {% if instagram_handle %}a DM to <a href="https://www.instagram.com/{{ instagram_handle }}/">@{{ instagram_handle }}</a>{% endif %}
+  {% if not contact_email and not instagram_handle %}contact {{ business_name }}.{% endif %}
+</p>
+{% endblock %}

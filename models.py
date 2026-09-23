@@ -81,3 +81,19 @@ def parse_keywords(raw: str | None) -> list[str]:
         if kw and kw.lower() not in (s.lower() for s in seen):
             seen.append(kw)
     return seen
+
+
+def prune_processed_comments(db, retention_days: int) -> int:
+    """Delete activity records older than `retention_days`. Returns rows deleted.
+
+    Safe for dedup: Instagram only allows a private reply within 7 days of a comment,
+    and Meta stops retrying webhook deliveries long before that.
+    """
+    from datetime import timedelta
+
+    from sqlalchemy import delete
+
+    cutoff = utcnow() - timedelta(days=retention_days)
+    result = db.execute(delete(ProcessedComment).where(ProcessedComment.processed_at < cutoff))
+    db.commit()
+    return result.rowcount or 0

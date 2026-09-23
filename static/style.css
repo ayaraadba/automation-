@@ -205,3 +205,10 @@ td.comment { max-width: 280px; overflow: hidden; text-overflow: ellipsis; white-
   .topbar { padding: 0 16px; gap: 12px; }
   .container { padding: 20px 16px 48px; }
 }
+
+/* Public legal pages */
+.legal { max-width: 760px; }
+.legal h1 { font-size: 28px; }
+.legal h2 { margin: 28px 0 8px; font-size: 18px; }
+.legal p, .legal li { line-height: 1.65; }
+.legal-foot { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 14px; }

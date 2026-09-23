@@ -223,6 +223,17 @@ async def post_preview(post_id: str, db: Session = Depends(get_db)):
         raise _api_error(exc)
 
 
+@router.delete("/activity")
+def delete_user_data(username: str = Query(..., min_length=1), db: Session = Depends(get_db)):
+    """Fulfil a data deletion request: remove every record for an Instagram username."""
+    rows = db.scalars(select(ProcessedComment).where(
+        ProcessedComment.commenter_username == username.strip().lstrip("@"))).all()
+    for r in rows:
+        db.delete(r)
+    db.commit()
+    return {"deleted": len(rows)}
+
+
 @router.get("/activity")
 def activity(limit: int = Query(50, ge=1, le=500), db: Session = Depends(get_db)):
     rows = db.scalars(select(ProcessedComment).order_by(ProcessedComment.id.desc()).limit(limit))

@@ -1,0 +1,32 @@
+{% extends "public.html" %}
+{% block title %}Data Deletion{% endblock %}
+{% block content %}
+<h1>Data Deletion Instructions</h1>
+
+<p>
+  {{ business_name }}'s comment auto-reply tool stores a small record when you comment one of our keywords on
+  Instagram: your username, your comment, and whether our reply and message were delivered. See the
+  <a href="{{ privacy_url }}">Privacy Policy</a> for details. These records are deleted automatically after
+  {{ retention_days }} days.
+</p>
+
+<h2>To have your data deleted sooner</h2>
+<ol>
+  <li>
+    Send us a request
+    {% if contact_email %}by email to <a href="mailto:{{ contact_email }}?subject=Data%20deletion%20request">{{ contact_email }}</a>{% endif %}
+    {% if contact_email and instagram_handle %}or {% endif %}
+    {% if instagram_handle %}by DM to <a href="https://www.instagram.com/{{ instagram_handle }}/">@{{ instagram_handle }}</a>{% endif %}
+    {% if not contact_email and not instagram_handle %}to {{ business_name }}{% endif %}
+    with the subject "Data deletion request".
+  </li>
+  <li>Include your Instagram username so we can find your records.</li>
+  <li>We'll delete every record for that username within 30 days and confirm once it's done.</li>
+</ol>
+
+<h2>Content on Instagram</h2>
+<p>
+  Your comments, our public replies, and the messages in your Instagram inbox are stored by Instagram, not by us.
+  You can delete your own comments and conversations in the Instagram app at any time.
+</p>
+{% endblock %}
